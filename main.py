@@ -1,61 +1,79 @@
-import requests # Bibliothèque pour les requêtes HTTP simples
-import sys # Pour la gestion du système et de l'arrêt du script
-from core.scanner import NourScanner # Importation de ton moteur de recherche
-from core.validator import NourValidator # Importation de ton moteur de validation
-from colorama import Fore, Style # Pour un terminal en couleur et lisible
+import requests # Bibliothèque pour effectuer des requêtes HTTP (test de connexion)
+import sys # Pour la gestion du système et l'arrêt propre du script
+from core.scanner import NourScanner # Importation de ton moteur de recherche personnalisé
+from core.validator import NourValidator # Importation de ton moteur de validation de cibles
+from colorama import Fore, Style, init # Pour un affichage coloré et organisé dans le terminal
+
+# Initialisation de colorama pour assurer la compatibilité des couleurs sur tous les systèmes
+init(autoreset=True)
 
 def check_connection():
-    """Vérifie si le tunnel Tor/Privoxy est bien actif avant de commencer"""
-    proxy = "http://127.0.0.1:8118"
+    """Vérifie si Nour-Net est bien protégé par le tunnel Tor/Privoxy avant de démarrer"""
+    proxy = "http://127.0.0.1:8118" # Adresse locale du tunnel de protection
     proxies = {"http": proxy, "https": proxy}
-    print(f"{Fore.BLUE}[+] Initialisation de Nour-Net...{Style.RESET_ALL}")
+    print(f"{Fore.BLUE}[+] Vérification de la protection Tor...{Style.RESET_ALL}")
     
     try:
-        # Test de l'IP via le site officiel de Tor
-        response = requests.get("https://check.torproject.org/", proxies=proxies, timeout=10)
+        # Requête de test vers le site officiel de vérification de Tor
+        response = requests.get("https://check.torproject.org/", proxies=proxies, timeout=15)
         if "Congratulations" in response.text:
             print(f"{Fore.GREEN}[SUCCESS] Nour-Net est masqué derrière le réseau Tor.{Style.RESET_ALL}")
             return True
         else:
-            print(f"{Fore.RED}[WARNING] Connexion établie mais IP réelle peut-être exposée !{Style.RESET_ALL}")
+            print(f"{Fore.RED}[WARNING] Connexion établie mais l'IP réelle peut être exposée !{Style.RESET_ALL}")
             return False
     except Exception as e:
-        print(f"{Fore.RED}[ERROR] Échec de la connexion au proxy : {e}{Style.RESET_ALL}")
+        print(f"{Fore.RED}[ERROR] Échec de la connexion au proxy (Privoxy est-il lancé ?) : {e}{Style.RESET_ALL}")
         return False
 
 def start_nour_net():
-    """Lance la séquence complète : Test -> Scan -> Validation"""
-    # 1. On vérifie la sécurité d'abord
+    """Lance la séquence complète : Test -> Scan Multi-Dorks -> Validation"""
+    # 1. On s'assure que la connexion est sécurisée
     if not check_connection():
         print(f"{Fore.RED}[!] Sécurité non garantie. Arrêt par précaution.{Style.RESET_ALL}")
         sys.exit()
 
-    print(f"\n{Fore.MAGENTA}=== DÉBUT DE LA MISSION ==={Style.RESET_ALL}")
+    print(f"\n{Fore.MAGENTA}=== NOUR-NET : SESSION D'EXPLORATION ==={Style.RESET_ALL}")
     
-    # 2. Initialisation des outils
+    # 2. Initialisation des outils de chasse
     scanner = NourScanner()
     validator = NourValidator()
     
-    # 3. Recherche (Scan)
-    dork = "redirect.php?url=" # Tu peux changer ce dork selon tes besoins
-    targets = scanner.search_zombies(dork)
+    # 3. Liste des Dorks stratégiques pour contourner le filtrage des moteurs
+    dorks_list = [
+        "URL Redirection nph-proxy", 
+        "Simple PHP Proxy script",
+        "index of /cgi-bin/nph-proxy",
+        "CGI Proxy Server error"      # Recherche d'interfaces de serveurs ou caméras exposés
+    ]
     
-    # 4. Validation et stockage
-    if targets:
-        print(f"{Fore.CYAN}[*] Analyse de la viabilité des cibles...{Style.RESET_ALL}")
-        army = []
-        for t in targets:
-            if validator.validate_zombie(t): # On teste chaque cible une par une
-                army.append(t)
+    all_valid_zombies = []
+
+    # 4. Boucle d'exploration automatique à travers la liste des dorks
+    for dork in dorks_list:
+        print(f"\n{Fore.YELLOW}[*] Analyse du dork : {dork}{Style.RESET_ALL}")
+        targets = scanner.search_zombies(dork) # Appel de la méthode de scan
         
-        if army:
-            validator.save_zombies(army) # On enregistre les survivants
-            print(f"{Fore.GREEN}[FINISH] Mission accomplie. Armée mise à jour.{Style.RESET_ALL}")
+        if targets:
+            print(f"{Fore.CYAN}[*] Analyse de {len(targets)} cibles potentielles...{Style.RESET_ALL}")
+            for t in targets:
+                # Si le validateur confirme que la cible est utilisable
+                if validator.validate_zombie(t):
+                    all_valid_zombies.append(t)
         else:
-            print(f"{Fore.YELLOW}[!] Aucune cible valide trouvée dans cette session.{Style.RESET_ALL}")
+            print(f"{Fore.WHITE}[-] Aucun résultat pour ce dork précis.{Style.RESET_ALL}")
+
+    # 5. Bilan de la mission et sauvegarde définitive dans l'armée
+    if all_valid_zombies:
+        print(f"\n{Fore.GREEN}=== BILAN FINAL DE LA CHASSE ==={Style.RESET_ALL}")
+        validator.save_zombies(all_valid_zombies) # Enregistre dans botnet/zombies.txt
+        print(f"{Fore.GREEN}[SUCCESS] {len(all_valid_zombies)} nouveaux soldats ont rejoint Nour-Net.{Style.RESET_ALL}")
+    else:
+        print(f"\n{Fore.RED}[!] Fin de session : Aucun zombie n'a pu être capturé.{Style.RESET_ALL}")
 
 if __name__ == "__main__":
     try:
-        start_nour_net()
+        start_nour_net() # Exécution du programme principal
     except KeyboardInterrupt:
-        print(f"\n{Fore.YELLOW}[!] Interruption par l'utilisateur. Salam.{Style.RESET_ALL}")
+        # Gestion propre de l'arrêt manuel (Ctrl+C)
+        print(f"\n{Fore.YELLOW}[!] Interruption demandée. Que la Paix soit sur toi, Nour.{Style.RESET_ALL}")
