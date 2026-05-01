@@ -1,6 +1,7 @@
 import requests # Importation de la bibliothèque pour effectuer des requêtes HTTP
 from bs4 import BeautifulSoup # Importation de BeautifulSoup pour analyser le code HTML des pages
 from colorama import Fore, Style # Importation de Colorama pour colorer les messages du terminal
+from urllib.parse import unquote # Pour décoder les URLs encapsulées par DuckDuckGo
 import random # Pour simuler un comportement humain par l'aléatoire
 
 class NourScanner:
@@ -44,10 +45,14 @@ class NourScanner:
                 # Extraction de tous les liens en filtrant les résultats internes
                 for link in soup.find_all('a', href=True):
                     url_trouvee = link['href']
-                    if "http" in url_trouvee and "duckduckgo" not in url_trouvee:
-                        # Nettoyage basique pour éviter les doublons avec paramètres
-                        clean_url = url_trouvee.split('&')[0] if 'uddg=' not in url_trouvee else url_trouvee
-                        targets.append(clean_url)
+                    # Décodage des redirections DuckDuckGo (contiennent le paramètre uddg=)
+                    if 'uddg=' in url_trouvee:
+                        clean_url = unquote(url_trouvee.split('uddg=')[1].split('&')[0])
+                    elif 'http' in url_trouvee and 'duckduckgo' not in url_trouvee:
+                        clean_url = url_trouvee.split('&')[0]
+                    else:
+                        continue
+                    targets.append(clean_url)
                 
                 # Suppression des doublons pour une liste propre
                 targets = list(set(targets))

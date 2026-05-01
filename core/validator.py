@@ -10,32 +10,44 @@ class NourValidator:
         self.headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"}
 
     def validate_zombie(self, url):
-        """Vérifie si une URL est un zombie exploitable via une requête HEAD"""
+        """Vérifie si une URL est un zombie exploitable via HEAD avec fallback GET"""
         try:
-            # On utilise une requête HEAD (plus rapide que GET car elle ne télécharge pas le contenu)
-            # On ajoute un timeout court (10s) pour ne pas rester bloqué sur un serveur lent
-            response = requests.head(url, proxies=self.proxies, headers=self.headers, timeout=10)
-            
-            # Si le serveur répond avec un code 200 (OK) ou 302 (Redirection)
+            # Tentative HEAD (rapide, ne télécharge pas le corps)
+            response = requests.head(url, proxies=self.proxies, headers=self.headers,
+                                     timeout=10, allow_redirects=True)
+
+            # Fallback GET si le serveur n'accepte pas HEAD (405 Method Not Allowed)
+            if response.status_code == 405:
+                response = requests.get(url, proxies=self.proxies, headers=self.headers,
+                                        timeout=10, stream=True)
+                response.close()
+
             if response.status_code in [200, 301, 302]:
                 print(f"{Fore.GREEN}[ALIVE] {url} est valide !{Style.RESET_ALL}")
                 return True
             else:
-                # Le serveur existe mais ne répond pas comme on le souhaite
                 print(f"{Fore.YELLOW}[DEAD] {url} (Code: {response.status_code}){Style.RESET_ALL}")
                 return False
-                
+
         except Exception:
-            # Si le serveur ne répond pas du tout ou si le lien est mort
             print(f"{Fore.RED}[OFFLINE] {url}{Style.RESET_ALL}")
             return False
 
     def save_zombies(self, valid_zombies, filename="botnet/zombies.txt"):
-        """Enregistre les zombies confirmés dans un fichier texte"""
+        """Enregistre les zombies confirmés sans doublons"""
         try:
-            with open(filename, "a") as f: # Mode 'a' pour ajouter à la suite sans effacer
-                for z in valid_zombies:
+            # Chargement des URLs déjà présentes pour éviter les répétitions
+            existing = set()
+            try:
+                with open(filename, "r") as f:
+                    existing = {line.strip() for line in f if line.strip()}
+            except FileNotFoundError:
+                pass
+
+            nouveaux = [z for z in valid_zombies if z not in existing]
+            with open(filename, "a") as f:
+                for z in nouveaux:
                     f.write(z + "\n")
-            print(f"{Fore.BLUE}[INFO] {len(valid_zombies)} zombies ajoutés à ton armée ({filename}){Style.RESET_ALL}")
+            print(f"{Fore.BLUE}[INFO] {len(nouveaux)} nouveaux zombies ajoutés ({filename}){Style.RESET_ALL}")
         except Exception as e:
             print(f"{Fore.RED}[ERROR] Impossible de sauvegarder : {e}{Style.RESET_ALL}")

@@ -19,6 +19,24 @@
 
 ## ⚙️ Installation & Utilisation
 1. S'assurer que **Tor** et **Privoxy** sont actifs.
-2. Installer les dépendances :
+2. Créer et activer un environnement virtuel :
+   ```bash
+   python3 -m venv venv
+   source venv/bin/activate
+   ```
+3. Installer les dépendances :
    ```bash
    pip install -r requirements.txt
+   ```
+4. Lancer le programme :
+   ```bash
+   python main.py
+   ```
+
+## 📋 Prérequis
+- **Tor** installé et actif (`sudo systemctl start tor`)
+- **Privoxy** configuré pour forwarder vers Tor (port 9050 → 8118)
+- Python 3.8+
+
+## ⚠️ Avertissement
+Cet outil est fourni à des fins de recherche et d'éducation uniquement. Toute utilisation à des fins malveillantes ou non autorisées est strictement interdite et engage la seule responsabilité de l'utilisateur.
