@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="https://capsule-render.vercel.app/api?type=waving&height=220&text=Nour%20%7C%20Full-Stack%20Developer%20%26%20Cybersecurity%20Enthusiast&fontAlign=50&fontAlignY=38&color=0:0f172a,40:1d4ed8,100:0ea5e9&fontColor=f8fafc&desc=Building%20order%20from%20code%2C%20systems%2C%20and%20security&descAlign=50&descAlignY=60" alt="Nour banner" />
+<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=700&size=28&pause=1000&color=0EA5E9&background=0F172A&center=true&vCenter=true&width=800&height=100&lines=Nour+%E2%80%94+Full-Stack+Developer;Cybersecurity+Enthusiast;Building+order+from+Chaos." alt="Nour banner" />
 
 # Nour — Full-Stack Developer & Cybersecurity Enthusiast
 
@@ -69,7 +69,10 @@ Ma philosophie technique repose sur un équilibre simple :
 
 <div align="center">
 
-[![Readme Card](https://github-readme-stats.vercel.app/api/pin/?username=El-hadj10&repo=Nour-Net&theme=tokyonight&hide_border=true)](https://github.com/El-hadj10/Nour-Net)
+[![Nour-Net](https://img.shields.io/badge/🌌%20Nour--Net-Exploration%20%26%20Validation%20Engine-0ea5e9?style=for-the-badge)](https://github.com/El-hadj10/Nour-Net)
+[![Stars](https://img.shields.io/github/stars/El-hadj10/Nour-Net?style=flat-square&color=1d4ed8)](https://github.com/El-hadj10/Nour-Net/stargazers)
+[![Last commit](https://img.shields.io/github/last-commit/El-hadj10/Nour-Net?style=flat-square&color=0ea5e9)](https://github.com/El-hadj10/Nour-Net/commits/master)
+[![License](https://img.shields.io/badge/License-Custom%20Disclaimer-yellow?style=flat-square)](https://github.com/El-hadj10/Nour-Net/blob/master/LICENSE)
 
 </div>
 
@@ -86,8 +89,9 @@ Moteur d'exploration réseau automatisé avec anonymat Tor, scraping multi-dorks
 
 <div align="center">
 
-![Stats](https://github-readme-stats.vercel.app/api?username=El-hadj10&show_icons=true&theme=tokyonight&hide_border=true)
-![Langues](https://github-readme-stats.vercel.app/api/top-langs/?username=El-hadj10&layout=compact&theme=tokyonight&hide_border=true)
+[![GitHub Stats](https://github-readme-stats-sigma-five.vercel.app/api?username=El-hadj10&show_icons=true&theme=tokyonight&hide_border=true)](https://github.com/El-hadj10)
+
+[![Top Langs](https://github-readme-stats-sigma-five.vercel.app/api/top-langs/?username=El-hadj10&layout=compact&theme=tokyonight&hide_border=true)](https://github.com/El-hadj10)
 
 </div>
 
