@@ -1,42 +1,95 @@
-# 🌌 Nour-Net : Exploration & Validation Engine
+<div align="center">
 
-**Nour-Net** est un outil de recherche et de validation automatisé conçu pour explorer les réseaux et identifier des vecteurs de redirection (zombies) via le réseau sécurisé Tor. Alliant spiritualité et technique, ce projet vise à cartographier la "Lumière" dans l'ombre du web.
+# 🌌 Nour-Net
+
+### Exploration & Validation Engine
+
+![Python](https://img.shields.io/badge/Python-3.8+-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![Tor](https://img.shields.io/badge/Tor-Network-7D4698?style=for-the-badge&logo=tor-browser&logoColor=white)
+![License](https://img.shields.io/badge/License-Educational-yellow?style=for-the-badge)
+![Status](https://img.shields.io/badge/Status-Active-brightgreen?style=for-the-badge)
+
+*Automatiser l'exploration réseau avec anonymat complet via Tor.*
+
+</div>
+
+---
+
+## 📖 À propos
+
+**Nour-Net** est un moteur de scan et de validation automatisé conçu pour identifier des vecteurs de redirection sur le web via le réseau **Tor**. Il orchestre un pipeline complet :
+
+> **Requête multi-dorks** → **Scraping anonyme** → **Validation HTTP** → **Persistance dédupliquée**
+
+Projet développé dans un cadre d'apprentissage de la sécurité réseau, de l'automatisation Python et de la gestion de proxies.
 
 ---
 
 ## 🚀 Fonctionnalités
-- **Anonymat Total** : Intégration native avec Tor et Privoxy.
-- **Moteur Multi-Dorks** : Rotation intelligente de requêtes pour maximiser les résultats.
-- **Anti-Blocking** : Système de pauses aléatoires et rotation de User-Agents pour contourner les erreurs 403.
-- **Validation en Temps Réel** : Module de vérification du statut HTTP des cibles trouvées.
-- **Sauvegarde Automatisée** : Archivage structuré des cibles valides dans `botnet/zombies.txt`.
 
-## 🛠️ Architecture du Projet
-- `main.py` : Chef d'orchestre de la session d'exploration.
-- `core/scanner.py` : Moteur de scraping avec camouflage (Referer/User-Agent).
-- `core/validator.py` : Cerveau de validation des cibles.
-- `botnet/` : Répertoire de stockage des résultats.
+| Fonctionnalité | Détail |
+|---|---|
+| 🔒 **Anonymat total** | Tout le trafic transite par Tor via Privoxy (port 8118) |
+| 🔄 **Rotation d'identité** | Pool de 4 User-Agents, Referer simulé (DuckDuckGo) |
+| 🧠 **Multi-Dorks** | Boucle automatique sur une liste de requêtes stratégiques |
+| ⏱️ **Anti-Blocking** | Pauses aléatoires (5–10s) entre chaque requête |
+| ✅ **Validation HEAD+GET** | Vérification HTTP avec fallback GET si HEAD refusé (405) |
+| 💾 **Persistance propre** | Sauvegarde sans doublons dans `botnet/zombies.txt` |
 
-## ⚙️ Installation & Utilisation
-1. S'assurer que **Tor** et **Privoxy** sont actifs.
-2. Créer et activer un environnement virtuel :
-   ```bash
-   python3 -m venv venv
-   source venv/bin/activate
-   ```
-3. Installer les dépendances :
-   ```bash
-   pip install -r requirements.txt
-   ```
-4. Lancer le programme :
-   ```bash
-   python main.py
-   ```
+---
 
-## 📋 Prérequis
-- **Tor** installé et actif (`sudo systemctl start tor`)
-- **Privoxy** configuré pour forwarder vers Tor (port 9050 → 8118)
+## 🏗️ Architecture
+
+```
+Nour-Net/
+├── main.py              # Orchestrateur : connexion Tor → scan → validation → sauvegarde
+├── core/
+│   ├── scanner.py       # Scraping DuckDuckGo avec décodage d'URL et rotation UA
+│   └── validator.py     # Test HTTP (HEAD/GET) + déduplication avant écriture
+├── botnet/
+│   └── zombies.txt      # Résultats validés (1 URL par ligne, sans répétition)
+└── requirements.txt
+```
+
+---
+
+## ⚙️ Installation
+
+**Prérequis système :**
+- Tor actif : `sudo systemctl start tor`
+- Privoxy configuré pour forwarder Tor → port 8118
 - Python 3.8+
 
-## ⚠️ Avertissement
-Cet outil est fourni à des fins de recherche et d'éducation uniquement. Toute utilisation à des fins malveillantes ou non autorisées est strictement interdite et engage la seule responsabilité de l'utilisateur.
+```bash
+# 1. Cloner le dépôt
+git clone https://github.com/El-hadj10/Nour-Net.git
+cd Nour-Net
+
+# 2. Créer et activer l'environnement virtuel
+python3 -m venv venv
+source venv/bin/activate
+
+# 3. Installer les dépendances
+pip install -r requirements.txt
+
+# 4. Lancer
+python3 main.py
+```
+
+---
+
+## 🔬 Stack technique
+
+- **Language** : Python 3.8+
+- **HTTP** : `requests` (avec support proxy SOCKS5/HTTP)
+- **Parsing** : `BeautifulSoup4` + `urllib.parse`
+- **Anonymat** : Tor + Privoxy
+- **UX Terminal** : `colorama`
+
+---
+
+## ⚠️ Avertissement légal
+
+> Cet outil est développé **exclusivement à des fins pédagogiques et de recherche en sécurité**.  
+> Toute utilisation sur des systèmes sans autorisation explicite est **illégale** et engage la seule responsabilité de l'utilisateur.  
+> L'auteur décline toute responsabilité en cas d'utilisation abusive.
