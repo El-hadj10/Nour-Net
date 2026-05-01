@@ -1,3 +1,5 @@
+import time
+import random
 import requests # Bibliothèque pour effectuer des requêtes HTTP (test de connexion)
 import sys # Pour la gestion du système et l'arrêt propre du script
 from core.scanner import NourScanner # Importation de ton moteur de recherche personnalisé
@@ -51,6 +53,14 @@ def start_nour_net():
 
     # 4. Boucle d'exploration automatique à travers la liste des dorks
     for dork in dorks_list:
+        for dork in dorks_list:
+        # Ajout d'une pause entre 5 et 10 secondes pour paraître humain
+         pause = random.randint(5, 10)
+        print(f"{Fore.BLUE}[INFO] Pause de sécurité : {pause}s...{Style.RESET_ALL}")
+        time.sleep(pause)
+        
+        print(f"\n{Fore.YELLOW}[*] Analyse du dork : {dork}{Style.RESET_ALL}")
+        # ... reste de ta boucle d'analyse et validation ...
         print(f"\n{Fore.YELLOW}[*] Analyse du dork : {dork}{Style.RESET_ALL}")
         targets = scanner.search_zombies(dork) # Appel de la méthode de scan
         
