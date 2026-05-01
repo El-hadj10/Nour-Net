@@ -6,6 +6,8 @@
 
 *Passionné par l'architecture du code et la sécurité des réseaux, je navigue entre la **Lumière** du développement Full-Stack et l'**Ombre** de la cybersécurité. Mon approche est guidée par la recherche de l'Ordre dans le Désordre technique. Apprenant perpétuel, je transforme la documentation complexe en outils fonctionnels et sécurisés.*
 
+<sub>README de profil prêt à être utilisé dans le dépôt <strong>El-hadj10/El-hadj10</strong>.</sub>
+
 <p>
 	<img src="https://img.shields.io/badge/Python-Advanced%20Automation%20%26%20Scraping-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python" />
 	<img src="https://img.shields.io/badge/JavaScript-Modern%20Frontend-F7DF1E?style=for-the-badge&logo=javascript&logoColor=111827" alt="JavaScript" />
@@ -65,11 +67,18 @@ Ma philosophie technique repose sur un équilibre simple :
 
 ## 🚀 Projets en vedette
 
-### 🌌 [Nour-Net](https://github.com/El-hadj10/Nour-Net)
-> Moteur d'exploration réseau automatisé avec anonymat Tor · Python · BeautifulSoup · Privoxy
+<div align="center">
 
-Pipeline complet : scraping multi-dorks → validation HTTP HEAD/GET → persistance dédupliquée.  
-`Python` `Requests` `BeautifulSoup4` `Tor` `Cybersecurity`
+[![Readme Card](https://github-readme-stats.vercel.app/api/pin/?username=El-hadj10&repo=Nour-Net&theme=tokyonight&hide_border=true)](https://github.com/El-hadj10/Nour-Net)
+
+</div>
+
+### 🌌 [Nour-Net](https://github.com/El-hadj10/Nour-Net)
+Moteur d'exploration réseau automatisé avec anonymat Tor, scraping multi-dorks, validation HTTP HEAD/GET et sauvegarde dédupliquée.
+
+- **Focus technique** : Python, Requests, BeautifulSoup4, Tor, Privoxy
+- **Approche architecture** : orchestration claire, séparation scanner/validator, persistance simple
+- **Valeur portfolio** : projet concret à l'intersection du scripting, du réseau et de la sécurité
 
 ---
 
