@@ -97,6 +97,18 @@ pip install -r requirements.txt
 
 ## Utilisation
 
+### Sequence recommandee (important)
+
+Dans le dossier du projet, execute toujours cette sequence avant le scan :
+
+```bash
+source venv/bin/activate
+sudo service tor restart
+python3 main.py   # ou python3 gui.py
+```
+
+Sans redemarrage de Tor, la session peut etre instable selon le noeud de sortie.
+
 ### Mode CLI
 
 ```bash
