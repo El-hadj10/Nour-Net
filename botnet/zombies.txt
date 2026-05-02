@@ -20,3 +20,12 @@ https://proxyorb.com/
 https://www.croxyproxy.com/
 https://proxyium.com/
 https://weboproxy.com/
+https://github.com/zounar/php-proxy
+https://gist.github.com/iovar/9091078
+https://github.com/Alexxz/Simple-php-proxy-script
+https://github.com/dcro/php-proxy
+https://stackoverflow.com/questions/35100993/php-proxy-script
+https://hackerone.com/brave
+https://theproxyguide.com/phproxy/
+https://forums.digitalpoint.com/threads/tutorial-getting-from-html-to-phproxy-the-complete-guide.1222866/
+https://hackerone.com/brave

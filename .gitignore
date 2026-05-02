@@ -26,3 +26,9 @@ htmlcov/
 .idea/
 *.swp
 .DS_Store
+
+# Variables d'environnement (webhook Discord, mots de passe)
+.env
+
+# Base de donnees SQLite generee
+botnet/nour_net.db

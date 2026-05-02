@@ -5,3 +5,5 @@ aiohttp
 fastapi
 uvicorn
 websockets
+stem
+python-dotenv

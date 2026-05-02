@@ -1,12 +1,18 @@
 import time
 import random
-import requests # Bibliothèque pour effectuer des requêtes HTTP (test de connexion)
-import sys # Pour la gestion du système et l'arrêt propre du script
-from core.scanner import NourScanner # Importation de ton moteur de recherche personnalisé
-from core.validator import NourValidator # Importation de ton moteur de validation de cibles
-from colorama import Fore, Style, init # Pour un affichage coloré et organisé dans le terminal
+import requests
+import sys
 
-# Initialisation de colorama pour assurer la compatibilité des couleurs sur tous les systèmes
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    pass
+
+from core.scanner import NourScanner
+from core.validator import NourValidator
+from colorama import Fore, Style, init
+
 init(autoreset=True)
 
 def check_connection():
