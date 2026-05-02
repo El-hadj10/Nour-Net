@@ -1,8 +1,8 @@
 const defaultDorks = [
-  "URL Redirection nph-proxy",
-  "Simple PHP Proxy script",
-  "index of /cgi-bin/nph-proxy",
-  "CGI Proxy Server error"
+  '"powered by PHProxy"',
+  '"open web proxy" "anonymous browsing"',
+  '"Surrogafier" proxy anonymous',
+  '"nph-proxy" "CGI Proxy"',
 ];
 
 const form = document.getElementById("session-form");

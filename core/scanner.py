@@ -1,7 +1,7 @@
 import requests # Importation de la bibliothèque pour effectuer des requêtes HTTP
 from bs4 import BeautifulSoup # Importation de BeautifulSoup pour analyser le code HTML des pages
 from colorama import Fore, Style # Importation de Colorama pour colorer les messages du terminal
-from urllib.parse import unquote # Pour décoder les URLs encapsulées par DuckDuckGo
+from urllib.parse import quote_plus # Pour encoder les dorks dans l'URL de recherche
 import random # Pour simuler un comportement humain par l'aléatoire
 
 class NourScanner:
@@ -45,8 +45,8 @@ class NourScanner:
             "Accept-Language": "en-US,en;q=0.5"
         }
         
-        # Construction de l'URL de recherche via DuckDuckGo (version HTML)
-        search_url = f"https://html.duckduckgo.com/html/?q={dork}"
+        # Construction de l'URL de recherche via Brave Search (compatible Tor)
+        search_url = "https://search.brave.com/search?q=" + quote_plus(dork) + "&source=web"
         
         try:
             # Exécution de la requête avec un délai d'attente de 20 secondes
@@ -58,16 +58,18 @@ class NourScanner:
                 targets = []
                 seen = set()
                 
-                # Extraction de tous les liens en filtrant les résultats internes
+                # Extraction des liens de résultats Brave Search
+                # On filtre les domaines internes Brave (brave.com, brave.app, etc.)
+                BRAVE_INTERNAL = {"brave.com", "brave.app", "search.brave.com"}
                 for link in soup.find_all('a', href=True):
                     url_trouvee = link['href']
-                    # Décodage des redirections DuckDuckGo (contiennent le paramètre uddg=)
-                    if 'uddg=' in url_trouvee:
-                        clean_url = unquote(url_trouvee.split('uddg=')[1].split('&')[0])
-                    elif 'http' in url_trouvee and 'duckduckgo' not in url_trouvee:
-                        clean_url = url_trouvee.split('&')[0]
-                    else:
+                    if not url_trouvee.startswith('http'):
                         continue
+                    # Exclure les pages internes de Brave
+                    host = url_trouvee.split('/')[2] if url_trouvee.count('/') >= 2 else ''
+                    if any(host == b or host.endswith('.' + b) for b in BRAVE_INTERNAL):
+                        continue
+                    clean_url = url_trouvee.split('?')[0] if '?' in url_trouvee else url_trouvee
                     if clean_url not in seen:
                         seen.add(clean_url)
                         targets.append(clean_url)
@@ -89,10 +91,10 @@ class NourScanner:
                 return targets
             
             elif response.status_code == 403:
-                self._print(f"{Fore.RED}[!] Accès refusé (403). Le moteur bloque ton nœud Tor actuel.{Style.RESET_ALL}")
+                self._print(f"{Fore.RED}[!] Acces refuse (403) par Brave Search — noeud Tor bloque.{Style.RESET_ALL}")
                 self._safe_emit(
                     event="SCAN_BLOCKED",
-                    message="Acces refuse (403) par le moteur de recherche",
+                    message="Acces refuse (403) par Brave Search — change de circuit Tor",
                     level="warning",
                     data={"dork": dork, "status_code": 403}
                 )

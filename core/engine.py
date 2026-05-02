@@ -15,10 +15,10 @@ StopChecker = Callable[[], bool]
 
 def default_dorks() -> List[str]:
     return [
-        "URL Redirection nph-proxy",
-        "Simple PHP Proxy script",
-        "index of /cgi-bin/nph-proxy",
-        "CGI Proxy Server error",
+        '"powered by PHProxy"',
+        '"open web proxy" "anonymous browsing"',
+        '"Surrogafier" proxy anonymous',
+        '"nph-proxy" "CGI Proxy"',
     ]
 
 
