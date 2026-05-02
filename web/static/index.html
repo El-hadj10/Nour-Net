@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nour-Net Command Center</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Sora:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <div class="bg-orb orb-a"></div>
+  <div class="bg-orb orb-b"></div>
+  <div class="grid-mask"></div>
+
+  <header class="topbar">
+    <div class="brand">
+      <img src="/static/assets/nour-eye.svg" alt="Nour icon" class="brand-icon">
+      <div>
+        <p class="kicker">Nour Security Hub</p>
+        <h1>Nour-Net Command Center</h1>
+      </div>
+    </div>
+    <p class="quote">SEEK KNOWLEDGE. RECTIFY PATHS. BUILD IN TRUTH.</p>
+  </header>
+
+  <main class="layout">
+    <section class="panel control-panel">
+      <h2>Session Control</h2>
+      <form id="session-form">
+        <label for="dorks">Dorks (1 par ligne)</label>
+        <textarea id="dorks" rows="6"></textarea>
+
+        <div class="grid-2">
+          <div>
+            <label for="limit">Cibles max / dork</label>
+            <input id="limit" type="number" min="1" max="100" value="10">
+          </div>
+          <div>
+            <label for="proxy">Proxy</label>
+            <input id="proxy" type="text" value="http://127.0.0.1:8118">
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div>
+            <label for="pause-min">Pause min (s)</label>
+            <input id="pause-min" type="number" min="0" max="30" value="1">
+          </div>
+          <div>
+            <label for="pause-max">Pause max (s)</label>
+            <input id="pause-max" type="number" min="0" max="60" value="2">
+          </div>
+        </div>
+
+        <label class="switch-row">
+          <input id="check-tor" type="checkbox" checked>
+          <span>Verifier Tor avant execution</span>
+        </label>
+
+        <button id="launch-btn" type="submit">Launch Session</button>
+        <div class="button-row">
+          <button id="stop-btn" type="button" class="ghost" disabled>Stop Session</button>
+          <button id="export-json-btn" type="button" class="ghost" disabled>Export JSON</button>
+          <button id="export-csv-btn" type="button" class="ghost" disabled>Export CSV</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="panel telemetry-panel">
+      <h2>Session Telemetry</h2>
+      <div class="stats">
+        <article>
+          <span class="label">Status</span>
+          <strong id="status">idle</strong>
+        </article>
+        <article>
+          <span class="label">Found</span>
+          <strong id="found">0</strong>
+        </article>
+        <article>
+          <span class="label">Alive</span>
+          <strong id="alive">0</strong>
+        </article>
+        <article>
+          <span class="label">Dead</span>
+          <strong id="dead">0</strong>
+        </article>
+      </div>
+
+      <div class="session-box">
+        <h3>Recent Sessions</h3>
+        <ul id="session-list"></ul>
+      </div>
+    </section>
+
+    <section class="panel log-panel">
+      <h2>Exploration Stream</h2>
+      <div id="log-stream" class="log-stream"></div>
+    </section>
+
+    <section class="panel map-panel">
+      <h2>Cartographie Nour-Net</h2>
+      <div id="map-canvas"></div>
+      <p id="map-caption">Aucun noeud valide pour cette session.</p>
+    </section>
+  </main>
+
+  <footer class="statusline">
+    <span>[el-hadj@localhost ~]$</span>
+    <span id="footer-line">interface initialized. (Nour is here.)</span>
+  </footer>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="/static/app.js"></script>
+</body>
+</html>

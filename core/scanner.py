@@ -5,10 +5,12 @@ from urllib.parse import unquote # Pour décoder les URLs encapsulées par DuckD
 import random # Pour simuler un comportement humain par l'aléatoire
 
 class NourScanner:
-    def __init__(self, proxy="http://127.0.0.1:8118"):
+    def __init__(self, proxy="http://127.0.0.1:8118", emit=None, verbose=True):
         """Initialisation du scanner avec configuration du tunnel Tor/Privoxy et rotation d'identité"""
         # Configuration des proxys pour rediriger tout le trafic vers le port 8118 (Privoxy + Tor)
         self.proxies = {"http": proxy, "https": proxy}
+        self.emit = emit
+        self.verbose = verbose
         
         # Liste d'identités (User-Agents) pour éviter d'être marqué comme robot
         self.user_agents = [
@@ -18,10 +20,23 @@ class NourScanner:
             "Mozilla/5.0 (Windows NT 10.0; rv:110.0) Gecko/20100101 Firefox/110.0"
         ]
 
-    def search_zombies(self, dork):
+    def _safe_emit(self, event, message, level="info", data=None):
+        if callable(self.emit):
+            self.emit(event=event, message=message, level=level, data=data or {})
+
+    def _print(self, message):
+        if self.verbose:
+            print(message)
+
+    def search_zombies(self, dork, limit=None):
         """Méthode principale optimisée pour scraper les résultats et contourner les filtres"""
         # Message d'information indiquant le début de la recherche
-        print(f"{Fore.CYAN}[!] Nour-Net lance l'exploration pour : {dork}{Style.RESET_ALL}")
+        self._print(f"{Fore.CYAN}[!] Nour-Net lance l'exploration pour : {dork}{Style.RESET_ALL}")
+        self._safe_emit(
+            event="SCAN_START",
+            message=f"Exploration lancee pour: {dork}",
+            data={"dork": dork}
+        )
         
         # On prépare des en-têtes réalistes avec un User-Agent aléatoire et un Referer
         headers = {
@@ -41,6 +56,7 @@ class NourScanner:
             if response.status_code == 200:
                 soup = BeautifulSoup(response.text, 'html.parser')
                 targets = []
+                seen = set()
                 
                 # Extraction de tous les liens en filtrant les résultats internes
                 for link in soup.find_all('a', href=True):
@@ -52,19 +68,43 @@ class NourScanner:
                         clean_url = url_trouvee.split('&')[0]
                     else:
                         continue
-                    targets.append(clean_url)
-                
-                # Suppression des doublons pour une liste propre
-                targets = list(set(targets))
-                
-                print(f"{Fore.GREEN}[+] {len(targets)} cibles potentielles extraites de la Lumière.{Style.RESET_ALL}")
+                    if clean_url not in seen:
+                        seen.add(clean_url)
+                        targets.append(clean_url)
+                        self._safe_emit(
+                            event="TARGET_FOUND",
+                            message=f"Cible potentielle trouvee: {clean_url}",
+                            data={"dork": dork, "url": clean_url}
+                        )
+
+                    if limit is not None and len(targets) >= limit:
+                        break
+
+                self._print(f"{Fore.GREEN}[+] {len(targets)} cibles potentielles extraites de la Lumière.{Style.RESET_ALL}")
+                self._safe_emit(
+                    event="SCAN_DONE",
+                    message=f"{len(targets)} cibles potentielles extraites",
+                    data={"dork": dork, "count": len(targets)}
+                )
                 return targets
             
             elif response.status_code == 403:
-                print(f"{Fore.RED}[!] Accès refusé (403). Le moteur bloque ton nœud Tor actuel.{Style.RESET_ALL}")
+                self._print(f"{Fore.RED}[!] Accès refusé (403). Le moteur bloque ton nœud Tor actuel.{Style.RESET_ALL}")
+                self._safe_emit(
+                    event="SCAN_BLOCKED",
+                    message="Acces refuse (403) par le moteur de recherche",
+                    level="warning",
+                    data={"dork": dork, "status_code": 403}
+                )
                 
         except Exception as e:
             # Affichage de l'erreur en cas de problème technique
-            print(f"{Fore.RED}[ERROR] Échec de l'exploration : {e}{Style.RESET_ALL}")
+            self._print(f"{Fore.RED}[ERROR] Échec de l'exploration : {e}{Style.RESET_ALL}")
+            self._safe_emit(
+                event="SCAN_ERROR",
+                message=f"Echec de l'exploration: {e}",
+                level="error",
+                data={"dork": dork}
+            )
             
         return [] # Retourne une liste vide par défaut

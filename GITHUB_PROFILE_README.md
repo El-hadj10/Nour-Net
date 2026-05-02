@@ -1,108 +1,60 @@
-<div align="center">
+# Nour
 
-<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=700&size=28&pause=1000&color=0EA5E9&background=0F172A&center=true&vCenter=true&width=800&height=100&lines=Nour+%E2%80%94+Full-Stack+Developer;Cybersecurity+Enthusiast;Building+order+from+Chaos." alt="Nour banner" />
+## Full-Stack Developer | Cybersecurity Enthusiast
 
-# Nour — Full-Stack Developer & Cybersecurity Enthusiast
+[![Typing](https://readme-typing-svg.demolab.com?font=Fira+Code&weight=700&size=28&pause=1000&color=0EA5E9&background=0F172A&center=true&vCenter=true&width=900&height=100&lines=Nour+%7C+Full-Stack+Developer;Cybersecurity+Enthusiast;From+Code+Clarity+to+Network+Reality)](https://github.com/El-hadj10)
 
-*Passionné par l'architecture du code et la sécurité des réseaux, je navigue entre la **Lumière** du développement Full-Stack et l'**Ombre** de la cybersécurité. Mon approche est guidée par la recherche de l'Ordre dans le Désordre technique. Apprenant perpétuel, je transforme la documentation complexe en outils fonctionnels et sécurisés.*
+[![Python](https://img.shields.io/badge/Python-Automation%20%26%20Tooling-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
+[![JavaScript](https://img.shields.io/badge/JavaScript-Frontend%20Engineering-F7DF1E?style=for-the-badge&logo=javascript&logoColor=111827)](https://developer.mozilla.org/fr/docs/Web/JavaScript)
+[![Linux](https://img.shields.io/badge/Linux-Daily%20Environment-FCC624?style=for-the-badge&logo=linux&logoColor=111827)](https://ubuntu.com/)
+[![Git](https://img.shields.io/badge/Git-Version%20Control-F05032?style=for-the-badge&logo=git&logoColor=white)](https://git-scm.com/)
 
-<sub>README de profil prêt à être utilisé dans le dépôt <strong>El-hadj10/El-hadj10</strong>.</sub>
-
-<p>
-	<img src="https://img.shields.io/badge/Python-Advanced%20Automation%20%26%20Scraping-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python" />
-	<img src="https://img.shields.io/badge/JavaScript-Modern%20Frontend-F7DF1E?style=for-the-badge&logo=javascript&logoColor=111827" alt="JavaScript" />
-	<img src="https://img.shields.io/badge/HTML5%20%26%20CSS3-UI%20Foundations-E34F26?style=for-the-badge&logo=html5&logoColor=white" alt="HTML CSS" />
-</p>
-
-<p>
-	<img src="https://img.shields.io/github/followers/El-hadj10?style=flat-square&label=Followers&color=0ea5e9" alt="Followers" />
-	<img src="https://img.shields.io/github/stars/El-hadj10/Nour-Net?style=flat-square&label=Nour-Net%20Stars&color=1d4ed8" alt="Nour-Net stars" />
-	<img src="https://img.shields.io/badge/Linux-Daily%20Workflow-FCC624?style=flat-square&logo=linux&logoColor=111827" alt="Linux" />
-	<img src="https://img.shields.io/badge/VS%20Code-Primary%20Workspace-007ACC?style=flat-square&logo=visualstudiocode&logoColor=white" alt="VS Code" />
-</p>
-
-</div>
+Je construis des interfaces lisibles, des backends robustes et des outils techniques orientés reseau.
 
 ---
 
-## ☀️ Lumière & Ombre
+## Focus technique
 
-Ma philosophie technique repose sur un équilibre simple :
-
-- **La Lumière** : concevoir des interfaces lisibles, des flux clairs et du code maintenable.
-- **L'Ombre** : comprendre les surfaces d'attaque, les comportements réseau et les limites réelles des systèmes.
-- **L'Ordre** : transformer cette tension entre produit et sécurité en architectures robustes, testables et utiles.
-
----
-
-## 🛠️ Compétences
-
-| Domaine | Technologies |
-|---|---|
-| **Backend** | Python · Automatisation · Web Scraping |
-| **Frontend** | HTML5 · CSS3 · JavaScript (UI/UX Moderne) |
-| **Sécurité** | Tor Network · Proxy Management · Dorking Stratégique |
-| **Outils** | Git · Linux · VS Code |
+- Architecture web complete: backend API + frontend interactif
+- Automatisation Python pour workflows reseau
+- Observabilite temps reel: logs, stream, etat session
+- Separation claire des responsabilites applicatives
 
 ---
 
-## 🔎 Domaines d'expertise
+## Projet phare
 
-### Python Avancé — Automation & Scraping
-- Automatisation de workflows réseau et de collecte de données.
-- Scraping structuré avec parsing HTML, rotation d'en-têtes et gestion des erreurs HTTP.
-- Construction d'outils CLI orientés fiabilité, lisibilité et itération rapide.
+### Nour-Net
 
-### Cybersécurité — Tor, Proxy, Dorking
-- Utilisation de Tor et Privoxy pour l'anonymisation et la séparation des flux.
-- Gestion de proxies, validation de cibles et observation de comportements HTTP réels.
-- Recherche technique à partir de dorks, signaux réseau et surfaces web exposées.
+Moteur d'exploration et de validation avec Command Center local.
 
-### Architecture Logicielle — Séparation des tâches
-- Découpage en modules responsables d'une seule mission : orchestration, scan, validation, persistance.
-- Préférence pour des flux simples, testables et faciles à faire évoluer.
-- Recherche d'un bon compromis entre pragmatisme d'implémentation et clarté structurelle.
+- Session control create/stop
+- Streaming WebSocket en direct
+- Cartographie Leaflet des cibles geolocalisees
+- Exports JSON/CSV des sessions
+- Pipeline CLI + GUI sur un moteur commun
+
+Repository: [Nour-Net](https://github.com/El-hadj10/Nour-Net)
 
 ---
 
-## 🚀 Projets en vedette
+## Stack
 
-<div align="center">
-
-[![Nour-Net](https://img.shields.io/badge/🌌%20Nour--Net-Exploration%20%26%20Validation%20Engine-0ea5e9?style=for-the-badge)](https://github.com/El-hadj10/Nour-Net)
-[![Stars](https://img.shields.io/github/stars/El-hadj10/Nour-Net?style=flat-square&color=1d4ed8)](https://github.com/El-hadj10/Nour-Net/stargazers)
-[![Last commit](https://img.shields.io/github/last-commit/El-hadj10/Nour-Net?style=flat-square&color=0ea5e9)](https://github.com/El-hadj10/Nour-Net/commits/master)
-[![License](https://img.shields.io/badge/License-Custom%20Disclaimer-yellow?style=flat-square)](https://github.com/El-hadj10/Nour-Net/blob/master/LICENSE)
-
-</div>
-
-### 🌌 [Nour-Net](https://github.com/El-hadj10/Nour-Net)
-Moteur d'exploration réseau automatisé avec anonymat Tor, scraping multi-dorks, validation HTTP HEAD/GET et sauvegarde dédupliquée.
-
-- **Focus technique** : Python, Requests, BeautifulSoup4, Tor, Privoxy
-- **Approche architecture** : orchestration claire, séparation scanner/validator, persistance simple
-- **Valeur portfolio** : projet concret à l'intersection du scripting, du réseau et de la sécurité
+- Languages: Python, JavaScript, HTML, CSS
+- Backend: FastAPI, Requests
+- Frontend: JavaScript vanilla, Leaflet
+- Environnement: Linux, VS Code, Git
 
 ---
 
-## 📊 Stats GitHub
-
-<div align="center">
+## Stats
 
 [![GitHub Stats](https://github-readme-stats-sigma-five.vercel.app/api?username=El-hadj10&show_icons=true&theme=tokyonight&hide_border=true)](https://github.com/El-hadj10)
 
 [![Top Langs](https://github-readme-stats-sigma-five.vercel.app/api/top-langs/?username=El-hadj10&layout=compact&theme=tokyonight&hide_border=true)](https://github.com/El-hadj10)
 
-</div>
-
 ---
 
-## 📬 Contact
+## Contact
 
-[![GitHub](https://img.shields.io/badge/GitHub-El--hadj10-181717?style=for-the-badge&logo=github)](https://github.com/El-hadj10)
-
----
-
-<div align="center">
-<sub>« L'Ordre naît du Désordre maîtrisé. »</sub>
-</div>
+- GitHub: [El-hadj10](https://github.com/El-hadj10)

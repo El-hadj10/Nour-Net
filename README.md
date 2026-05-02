@@ -1,141 +1,136 @@
-<div align="center">
+# Nour-Net
 
-# 🌌 Nour-Net
+## Exploration, validation et supervision temps reel
 
-### Exploration & Validation Engine
+[![Python](https://img.shields.io/badge/Python-3.8+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-Command%20Center-009688?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
+[![Tor](https://img.shields.io/badge/Tor%20%2B%20Privoxy-Active-7D4698?style=for-the-badge&logo=tor-browser&logoColor=white)](https://www.torproject.org/)
+[![Status](https://img.shields.io/badge/Status-Active-brightgreen?style=for-the-badge)](https://github.com/El-hadj10/Nour-Net)
 
-![Python](https://img.shields.io/badge/Python-3.8+-3776AB?style=for-the-badge&logo=python&logoColor=white)
-![Tor](https://img.shields.io/badge/Tor-Network-7D4698?style=for-the-badge&logo=tor-browser&logoColor=white)
-![License](https://img.shields.io/badge/License-Educational-yellow?style=for-the-badge)
-![Status](https://img.shields.io/badge/Status-Active-brightgreen?style=for-the-badge)
-
-*Automatiser l'exploration réseau avec anonymat complet via Tor.*
-
-</div>
+Nour-Net est un projet educatif centre sur l'automatisation reseau defensive: scan, validation, persistance et visualisation temps reel.
 
 ---
 
-## 📖 À propos
+## A propos
 
-**Nour-Net** est un moteur de scan et de validation automatisé conçu pour identifier des vecteurs de redirection sur le web via le réseau **Tor**. Il orchestre un pipeline complet :
+Le projet combine:
 
-> **Requête multi-dorks** → **Scraping anonyme** → **Validation HTTP** → **Persistance dédupliquée**
+- un mode CLI simple et direct
+- un moteur de scan multi-dorks
+- une validation HTTP robuste
+- une persistance dedupee
+- un Command Center web local
 
-Projet développé dans un cadre d'apprentissage de la sécurité réseau, de l'automatisation Python et de la gestion de proxies.
-
----
-
-## 🚀 Fonctionnalités
-
-| Fonctionnalité | Détail |
-|---|---|
-| 🔒 **Anonymat total** | Tout le trafic transite par Tor via Privoxy (port 8118) |
-| 🔄 **Rotation d'identité** | Pool de 4 User-Agents, Referer simulé (DuckDuckGo) |
-| 🧠 **Multi-Dorks** | Boucle automatique sur une liste de requêtes stratégiques |
-| ⏱️ **Anti-Blocking** | Pauses aléatoires (5–10s) entre chaque requête |
-| ✅ **Validation HEAD+GET** | Vérification HTTP avec fallback GET si HEAD refusé (405) |
-| 💾 **Persistance propre** | Sauvegarde sans doublons dans `botnet/zombies.txt` |
+Objectif: apprendre a structurer un workflow technique complet, du traitement des cibles jusqu'au monitoring.
 
 ---
 
-## 🏗️ Architecture
+## Fonctionnalites
 
-```
+### Core Engine
+
+- Verification optionnelle de la connectivite Tor/Privoxy
+- Rotation d'identite User-Agent
+- Dorks configurables
+- Validation HEAD puis fallback GET si HEAD retourne 405
+- Deduplication avant ecriture dans [botnet/zombies.txt](botnet/zombies.txt)
+
+### Command Center
+
+- Creation de sessions depuis l'interface
+- Stream WebSocket en temps reel
+- Arret manuel de session
+- Cartographie reelle Leaflet avec geolocalisation backend
+- Export de session en JSON ou CSV
+- Historique des sessions recentes
+
+---
+
+## Architecture
+
+```text
 Nour-Net/
-├── main.py              # Orchestrateur : connexion Tor → scan → validation → sauvegarde
+├── main.py                     # CLI
+├── gui.py                      # Lance l'interface web
 ├── core/
-│   ├── scanner.py       # Scraping DuckDuckGo avec décodage d'URL et rotation UA
-│   └── validator.py     # Test HTTP (HEAD/GET) + déduplication avant écriture
-├── botnet/
-│   └── zombies.txt      # Résultats validés (1 URL par ligne, sans répétition)
-└── requirements.txt
+│   ├── scanner.py              # Scan et extraction URL
+│   ├── validator.py            # Validation et sauvegarde
+│   └── engine.py               # Orchestration + geolocalisation
+├── web/
+│   ├── app.py                  # API + WS + export + stop
+│   └── static/
+│       ├── index.html          # Dashboard
+│       ├── style.css           # Theme
+│       ├── app.js              # Logique frontend
+│       └── assets/
+│           ├── nour-eye.svg
+│           └── grid.svg
+└── botnet/zombies.txt
 ```
 
 ---
 
-## ⚙️ Installation
+## Installation
 
-**Prérequis système :**
-- Tor actif : `sudo systemctl start tor`
-- Privoxy configuré pour forwarder Tor → port 8118
+Prerequis:
+
 - Python 3.8+
+- Tor actif
+- Privoxy configure sur le port 8118
 
 ```bash
-# 1. Cloner le dépôt
 git clone https://github.com/El-hadj10/Nour-Net.git
 cd Nour-Net
-
-# 2. Créer et activer l'environnement virtuel
 python3 -m venv venv
 source venv/bin/activate
-
-# 3. Installer les dépendances
 pip install -r requirements.txt
+```
 
-# 4. Lancer
+---
+
+## Utilisation
+
+### Mode CLI
+
+```bash
 python3 main.py
 ```
 
----
+### Mode GUI
 
-## 🔬 Stack technique
-
-- **Language** : Python 3.8+
-- **HTTP** : `requests` (avec support proxy SOCKS5/HTTP)
-- **Parsing** : `BeautifulSoup4` + `urllib.parse`
-- **Anonymat** : Tor + Privoxy
-- **UX Terminal** : `colorama`
-
----
-
-## 🧪 Preuve d'exécution réelle
-
-Session lancée le **1er mai 2026** — résultats en production via Tor/Privoxy.
-
-```
-[*] Analyse du dork : Simple PHP Proxy script
-[!] Nour-Net lance l'exploration pour : Simple PHP Proxy script
-[+] 10 cibles potentielles extraites de la Lumière.
-[*] Analyse de 10 cibles potentielles...
-[ALIVE] https://www.benalman.com/code/projects/php-simple-proxy/examples/simple/
-[ALIVE] https://github.com/zounar/php-proxy
-[ALIVE] https://byteful.com/blog/php-proxy-setting-up-and-using-proxies
-[ALIVE] https://packagist.org/packages/zounar/php-proxy
-[ALIVE] https://gist.github.com/iovar/9091078
-[ALIVE] https://www.php-proxy.com/
-[ALIVE] https://stackoverflow.com/questions/1091022/...
-[ALIVE] https://din-studio.com/how-to-create-a-php-proxy-server-for-web-requests/
-[ALIVE] https://www.proxiesapi.com/blog/...
-
-[*] Analyse du dork : index of /cgi-bin/nph-proxy
-[+] 10 cibles potentielles extraites de la Lumière.
-[ALIVE] https://github.com/DeeNewcum/cgiproxy/blob/master/nph-proxy.cgi
-[ALIVE] https://www.jmarshall.com/tools/cgiproxy/cgiproxy-beta.html
-[ALIVE] https://github.com/polserver/legacy_scripts/...
-[ALIVE] https://github.com/Nikokatsu/proxy
-[ALIVE] https://github.com/DeeNewcum/cgiproxy
-[ALIVE] http://shoshin.freeshell.org/nph-proxy.cgi
-
-[*] Analyse du dork : CGI Proxy Server error
-[+] 10 cibles potentielles extraites de la Lumière.
-[ALIVE] https://www.dirwiz.com/kb/3339
-[ALIVE] https://bobcares.com/blog/http-502-2-bad-gateway-error-in-cgi-applications/
-[ALIVE] https://usavps.com/blog/what-is-proxy_fcgierror-and-how-can-it-be-resolved/
-[ALIVE] https://kb.hosting.com/docs/troubleshooting-cgi-scripts
-[ALIVE] https://stackoverflow.com/questions/62101236/...
-[ALIVE] https://kinsta.com/blog/502-bad-gateway/
-
-=== BILAN FINAL DE LA CHASSE ===
-[INFO] 36 nouveaux zombies ajoutés (botnet/zombies.txt)
-[SUCCESS] 36 nouveaux soldats ont rejoint Nour-Net.
+```bash
+python3 gui.py
 ```
 
-**36 cibles validées** sur 3 dorks — pipeline complet opérationnel : scan → validation HEAD/GET → sauvegarde dédupliquée.
+Ensuite ouvrir [http://127.0.0.1:8080](http://127.0.0.1:8080).
 
 ---
 
-## ⚠️ Avertissement légal
+## API rapide
 
-> Cet outil est développé **exclusivement à des fins pédagogiques et de recherche en sécurité**.  
-> Toute utilisation sur des systèmes sans autorisation explicite est **illégale** et engage la seule responsabilité de l'utilisateur.  
-> L'auteur décline toute responsabilité en cas d'utilisation abusive.
+- GET /api/health
+- POST /api/sessions
+- GET /api/sessions
+- GET /api/sessions/{id}
+- POST /api/sessions/{id}/stop
+- GET /api/sessions/{id}/export?format=json
+- GET /api/sessions/{id}/export?format=csv
+- GET /api/geolocate?target_url=target-url
+- WS /api/sessions/{id}/ws
+
+---
+
+## Stack
+
+- Backend: Python, FastAPI, Uvicorn, Requests
+- Parsing: BeautifulSoup4
+- Frontend: HTML, CSS, JavaScript
+- Cartographie: Leaflet + OpenStreetMap
+- CLI UX: Colorama
+
+---
+
+## Legal
+
+Projet fourni pour apprentissage et recherche defensive dans des environnements autorises.
+Toute utilisation non autorisee est interdite et engage uniquement la responsabilite de l'utilisateur.
