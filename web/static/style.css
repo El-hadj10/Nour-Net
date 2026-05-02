@@ -228,8 +228,14 @@ button:disabled {
 
 .button-row {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
   gap: 8px;
+}
+
+.button-row button {
+  min-width: 0;
+  white-space: normal;
+  text-align: center;
 }
 
 button.ghost {
@@ -240,6 +246,27 @@ button.ghost {
 
 button.ghost:hover {
   box-shadow: 0 8px 20px rgba(105, 246, 223, 0.2);
+}
+
+button.secondary {
+  color: #bfeae3;
+  background: rgba(7, 24, 39, 0.95);
+  border-color: rgba(120, 255, 228, 0.35);
+}
+
+button.secondary:hover {
+  color: #d9fff8;
+  border-color: rgba(120, 255, 228, 0.75);
+}
+
+button.danger {
+  color: #ffe6e6;
+  background: linear-gradient(120deg, rgba(96, 21, 35, 0.95), rgba(138, 39, 58, 0.92));
+  border-color: rgba(255, 102, 133, 0.65);
+}
+
+button.danger:hover {
+  box-shadow: 0 8px 20px rgba(255, 102, 133, 0.3);
 }
 
 button.compact {
@@ -389,7 +416,8 @@ button.compact {
 }
 
 #status.stopped,
-#status.session_stopped {
+#status.session_stopped,
+#status.session_empty {
   color: #ffcb72;
 }
 
@@ -481,5 +509,16 @@ button.compact {
   .topbar {
     flex-direction: column;
     align-items: flex-start;
+  }
+}
+
+@media (max-width: 1200px) {
+  .layout {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "control"
+      "telemetry"
+      "logs"
+      "map";
   }
 }

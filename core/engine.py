@@ -128,7 +128,7 @@ def run_session(config: Dict, emit: Optional[EventEmitter] = None) -> Dict:
             data={
                 "dork": dork,
                 "progress": index / max(len(dorks), 1),
-                "running_summary": summary,
+                "running_summary": summary.copy(),
             },
         )
 
@@ -136,6 +136,15 @@ def run_session(config: Dict, emit: Optional[EventEmitter] = None) -> Dict:
         validator.save_zombies(all_valid_zombies)
 
     summary["saved"] = len(all_valid_zombies)
+
+    if summary["targets_found"] == 0:
+        emit_event(
+            emit,
+            event="SESSION_EMPTY",
+            message="Aucune cible trouvee. Le moteur peut avoir limite ou bloque la recherche.",
+            level="warning",
+            data={"summary": summary.copy()},
+        )
 
     emit_event(
         emit,
@@ -324,7 +333,7 @@ def run_session_with_stop(config: Dict, emit: Optional[EventEmitter] = None, sho
             data={
                 "dork": dork,
                 "progress": index / max(len(dorks), 1),
-                "running_summary": summary,
+                "running_summary": summary.copy(),
             },
         )
         if summary["stopped"]:
@@ -334,6 +343,24 @@ def run_session_with_stop(config: Dict, emit: Optional[EventEmitter] = None, sho
         validator.save_zombies(all_valid_zombies)
 
     summary["saved"] = len(all_valid_zombies)
+
+    if not summary["stopped"]:
+        if summary["targets_found"] == 0:
+            emit_event(
+                emit,
+                event="SESSION_EMPTY",
+                message="Session terminee sans resultat: le moteur de recherche a pu limiter ou bloquer les requetes.",
+                level="warning",
+                data={"summary": summary.copy(), "reason": "no_targets_found"},
+            )
+        elif summary["alive"] == 0:
+            emit_event(
+                emit,
+                event="SESSION_EMPTY",
+                message="Session terminee: des cibles ont ete trouvees mais aucune n'a ete validee.",
+                level="warning",
+                data={"summary": summary.copy(), "reason": "no_alive_targets"},
+            )
 
     if summary["stopped"]:
         emit_event(

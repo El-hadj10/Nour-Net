@@ -249,13 +249,17 @@ function handleEvent(eventPayload) {
     deadEl.textContent = String(counters.dead);
   }
 
-  if (["SESSION_START", "DORK_START", "SESSION_DONE", "SESSION_ABORTED", "SESSION_FAILED"].includes(eventType)) {
+  if (["SESSION_START", "DORK_START", "SESSION_DONE", "SESSION_ABORTED", "SESSION_FAILED", "SESSION_EMPTY"].includes(eventType)) {
     setStatus(eventType.toLowerCase());
     setActionStates(eventType.toLowerCase());
   }
 
-  if (["SESSION_DONE", "SESSION_ABORTED", "SESSION_FAILED", "SESSION_STOPPED"].includes(eventType)) {
+  if (["SESSION_DONE", "SESSION_ABORTED", "SESSION_FAILED", "SESSION_STOPPED", "SESSION_EMPTY"].includes(eventType)) {
     stopBtn.disabled = true;
+  }
+
+  if (eventType === "SESSION_EMPTY") {
+    mapCaption.textContent = message;
   }
 
   if (eventType === "SESSION_DONE" && data.summary) {
