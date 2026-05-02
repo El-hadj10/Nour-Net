@@ -115,7 +115,15 @@ h1 {
   box-shadow: var(--shadow);
   position: relative;
   overflow: hidden;
+  opacity: 0;
+  transform: translateY(10px);
+  animation: panel-in 380ms ease forwards;
 }
+
+.control-panel { animation-delay: 20ms; }
+.telemetry-panel { animation-delay: 70ms; }
+.log-panel { animation-delay: 120ms; }
+.map-panel { animation-delay: 170ms; }
 
 .panel::before {
   content: "";
@@ -234,6 +242,13 @@ button.ghost:hover {
   box-shadow: 0 8px 20px rgba(105, 246, 223, 0.2);
 }
 
+button.compact {
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  padding: 8px 10px;
+  border-radius: 8px;
+}
+
 .stats {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -302,6 +317,28 @@ button.ghost:hover {
   line-height: 1.45;
 }
 
+.log-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px 0;
+}
+
+.log-toolbar label {
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.log-toolbar select {
+  border-radius: 8px;
+  border: 1px solid rgba(110, 214, 205, 0.34);
+  padding: 6px 8px;
+  background: rgba(7, 16, 29, 0.88);
+  color: var(--text);
+  font-family: "Sora", sans-serif;
+}
+
 .log-line {
   opacity: 0;
   transform: translateY(4px);
@@ -324,11 +361,56 @@ button.ghost:hover {
   color: #ff7e93;
 }
 
+.log-line.hidden {
+  display: none;
+}
+
+#status {
+  transition: color 180ms ease;
+}
+
+#status.running,
+#status.dork_start,
+#status.session_start {
+  color: var(--cyan);
+  animation: pulse 1.4s ease infinite;
+}
+
+#status.completed,
+#status.session_done {
+  color: #72f1b4;
+}
+
+#status.failed,
+#status.session_failed,
+#status.aborted,
+#status.session_aborted {
+  color: #ff7e93;
+}
+
+#status.stopped,
+#status.session_stopped {
+  color: #ffcb72;
+}
+
 @keyframes reveal {
   to {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+@keyframes panel-in {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.6; }
+  100% { opacity: 1; }
 }
 
 .map-panel {
@@ -389,6 +471,11 @@ button.ghost:hover {
 
   .button-row {
     grid-template-columns: 1fr;
+  }
+
+  .log-toolbar {
+    flex-wrap: wrap;
+    gap: 8px;
   }
 
   .topbar {

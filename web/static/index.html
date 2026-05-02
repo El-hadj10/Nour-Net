@@ -98,6 +98,17 @@
 
     <section class="panel log-panel">
       <h2>Exploration Stream</h2>
+      <div class="log-toolbar">
+        <label for="log-filter">Filtre logs</label>
+        <select id="log-filter">
+          <option value="all">Tous</option>
+          <option value="info">Info</option>
+          <option value="success">Success</option>
+          <option value="warning">Warning</option>
+          <option value="error">Error</option>
+        </select>
+        <button id="clear-logs-btn" type="button" class="ghost compact">Clear Logs</button>
+      </div>
       <div id="log-stream" class="log-stream"></div>
     </section>
 

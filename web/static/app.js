@@ -10,6 +10,8 @@ const launchBtn = document.getElementById("launch-btn");
 const stopBtn = document.getElementById("stop-btn");
 const exportJsonBtn = document.getElementById("export-json-btn");
 const exportCsvBtn = document.getElementById("export-csv-btn");
+const clearLogsBtn = document.getElementById("clear-logs-btn");
+const logFilterSelect = document.getElementById("log-filter");
 const dorksInput = document.getElementById("dorks");
 const limitInput = document.getElementById("limit");
 const proxyInput = document.getElementById("proxy");
@@ -44,6 +46,8 @@ let ws = null;
 let currentSessionId = null;
 let aliveTargets = [];
 let markerCount = 0;
+let mapBounds = null;
+let currentLogFilter = "all";
 let counters = {
   found: 0,
   alive: 0,
@@ -54,8 +58,15 @@ dorksInput.value = defaultDorks.join("\n");
 
 function appendLog(level, message) {
   const line = document.createElement("div");
-  line.className = `log-line ${level || "info"}`;
+  const normalizedLevel = level || "info";
+  line.className = `log-line ${normalizedLevel}`;
+  line.dataset.level = normalizedLevel;
   line.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+
+  if (currentLogFilter !== "all" && normalizedLevel !== currentLogFilter) {
+    line.classList.add("hidden");
+  }
+
   logStream.appendChild(line);
   logStream.scrollTop = logStream.scrollHeight;
 
@@ -65,8 +76,20 @@ function appendLog(level, message) {
 }
 
 function setStatus(text) {
+  statusEl.className = "";
+  statusEl.classList.add(text);
   statusEl.textContent = text;
   footerLine.textContent = `session: ${text}`;
+}
+
+function applyLogFilter(filterValue) {
+  currentLogFilter = filterValue;
+  const lines = logStream.querySelectorAll(".log-line");
+  lines.forEach((line) => {
+    const level = line.dataset.level || "info";
+    const visible = filterValue === "all" || level === filterValue;
+    line.classList.toggle("hidden", !visible);
+  });
 }
 
 function resetCounters() {
@@ -79,6 +102,7 @@ function resetCounters() {
 function clearMap() {
   markerLayer.clearLayers();
   markerCount = 0;
+  mapBounds = null;
   map.setView([20, 0], 2);
   mapCaption.textContent = "Aucun noeud valide pour cette session.";
 }
@@ -128,10 +152,18 @@ async function geolocateAndPlot(url) {
 
     markerLayer.addLayer(marker);
     markerCount += 1;
+    const latLng = L.latLng(payload.lat, payload.lon);
+    if (!mapBounds) {
+      mapBounds = L.latLngBounds(latLng, latLng);
+    } else {
+      mapBounds.extend(latLng);
+    }
     updateMapCaption();
 
     if (markerCount === 1) {
       map.setView([payload.lat, payload.lon], 3);
+    } else if (mapBounds) {
+      map.fitBounds(mapBounds, { padding: [30, 30], maxZoom: 5 });
     }
   } catch (_err) {
     // Ignore geolocation failures to keep live stream smooth.
@@ -340,8 +372,15 @@ form.addEventListener("submit", async (event) => {
 stopBtn.addEventListener("click", stopCurrentSession);
 exportJsonBtn.addEventListener("click", () => exportCurrentSession("json"));
 exportCsvBtn.addEventListener("click", () => exportCurrentSession("csv"));
+clearLogsBtn.addEventListener("click", () => {
+  logStream.innerHTML = "";
+});
+logFilterSelect.addEventListener("change", (event) => {
+  applyLogFilter(event.target.value);
+});
 
 clearMap();
 maybeEnableSessionActions();
+applyLogFilter("all");
 refreshSessionList();
 setInterval(refreshSessionList, 10000);
