@@ -15,9 +15,9 @@ StopChecker = Callable[[], bool]
 
 def default_dorks() -> List[str]:
     return [
+        '"Simple PHP Proxy script"',
         '"powered by PHProxy"',
         '"open web proxy" "anonymous browsing"',
-        '"Surrogafier" proxy anonymous',
         '"nph-proxy" "CGI Proxy"',
     ]
 

@@ -1,7 +1,7 @@
 const defaultDorks = [
+  '"Simple PHP Proxy script"',
   '"powered by PHProxy"',
   '"open web proxy" "anonymous browsing"',
-  '"Surrogafier" proxy anonymous',
   '"nph-proxy" "CGI Proxy"',
 ];
 

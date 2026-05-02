@@ -4,3 +4,4 @@ colorama
 aiohttp
 fastapi
 uvicorn
+websockets

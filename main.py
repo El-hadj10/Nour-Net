@@ -43,10 +43,10 @@ def start_nour_net():
     
     # 3. Liste des Dorks stratégiques pour contourner le filtrage des moteurs
     dorks_list = [
-        "URL Redirection nph-proxy", 
-        "Simple PHP Proxy script",
-        "index of /cgi-bin/nph-proxy",
-        "CGI Proxy Server error"      # Recherche d'interfaces de serveurs ou caméras exposés
+        '"Simple PHP Proxy script"',
+        '"powered by PHProxy"',
+        '"open web proxy" "anonymous browsing"',
+        '"nph-proxy" "CGI Proxy"',
     ]
     
     all_valid_zombies = []
