@@ -61,6 +61,38 @@ class NourScanner:
                 # Extraction des liens de résultats Brave Search
                 # On filtre les domaines internes Brave (brave.com, brave.app, etc.)
                 BRAVE_INTERNAL = {"brave.com", "brave.app", "search.brave.com"}
+
+                # Domaines de bruit connus (pas des proxies exploitables)
+                NOISE_DOMAINS = {
+                    "youtube.com", "wikipedia.org", "stackoverflow.com",
+                    "reddit.com", "github.com", "packagist.org", "npmjs.com",
+                    "pypi.org", "hackerone.com", "duckduckgo.com", "bing.com",
+                    "google.com", "twitter.com", "facebook.com", "linkedin.com",
+                    "medium.com", "dev.to", "docs.python.org", "ibm.com",
+                    "microsoft.com", "learn.microsoft.com", "support.microsoft.com",
+                    "kinsta.com", "geekflare.com", "wikihow.com",
+                    "stackoverflow.com", "brightdata.com", "proxiesapi.com",
+                    "sitepoint.com", "jonlabelle.com", "beamtic.com",
+                    "benalman.com", "gist.github.com", "byteful.com",
+                    "din-studio.com", "phpclasses.org",
+                }
+
+                # Mots-clés requis : au moins un doit apparaître dans l'URL
+                PROXY_KEYWORDS = [
+                    "proxy", "nph-", "cgi-bin", "phproxy", "glype",
+                    "surrogafier", "anonymiz", "browse", "tunnel",
+                ]
+
+                def is_proxy_target(url: str) -> bool:
+                    host = url.split('/')[2] if url.count('/') >= 2 else ''
+                    # Rejeter les domaines de bruit
+                    for noise in NOISE_DOMAINS:
+                        if host == noise or host.endswith('.' + noise):
+                            return False
+                    # Rejeter les URLs sans mot-clé proxy
+                    url_lower = url.lower()
+                    return any(kw in url_lower for kw in PROXY_KEYWORDS)
+
                 for link in soup.find_all('a', href=True):
                     url_trouvee = link['href']
                     if not url_trouvee.startswith('http'):
@@ -70,6 +102,9 @@ class NourScanner:
                     if any(host == b or host.endswith('.' + b) for b in BRAVE_INTERNAL):
                         continue
                     clean_url = url_trouvee.split('?')[0] if '?' in url_trouvee else url_trouvee
+                    # Filtre pertinence : garder uniquement les cibles proxy
+                    if not is_proxy_target(clean_url):
+                        continue
                     if clean_url not in seen:
                         seen.add(clean_url)
                         targets.append(clean_url)
